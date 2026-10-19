@@ -1,5 +1,9 @@
 # Changes
 
+## 0.32 — 2026-10-19
+
+Installer 0.32 includes Core 0.55, which fixes the crash before the verification screen, and Store 0.34. Both embedded APKs use the persistent ON key.
+
 ## 0.31 — 2026-10-19
 
 Installer 0.31 includes signed Core 0.54 and Store 0.34.

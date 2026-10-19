@@ -35,6 +35,6 @@ The public certificate is in `docs/on-release-public.pem`. It can be used to com
 
 An app signed with the new ON key cannot update an older development build signed with the Android debug key. That development installation needs a one-time migration. Keep the persistent ON key for all subsequent updates.
 
-The 0.31 release includes Core 0.54 and Store 0.34 signed with the persistent ON key. Source build and signing scripts do not upload files. This SDK signing helper enables v1 and v2 signatures for compatibility with Android API 14 and newer.
+The 0.32 release includes Core 0.55 and Store 0.34 signed with the persistent ON key. Source build and signing scripts do not upload files. This SDK signing helper enables v1 and v2 signatures for compatibility with Android API 14 and newer.
 
 Reference: [Android apksigner documentation](https://developer.android.com/tools/apksigner).

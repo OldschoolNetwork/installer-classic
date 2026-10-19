@@ -4,10 +4,10 @@ Installs ON services together, with a Holo interface and a choice of ordinary or
 
 ## Download
 
-Current build: **alpha 0.31**, version code **6**.
+Current build: **alpha 0.32**, version code **7**.
 
-- [Download ON Classic Installer](https://github.com/OldschoolNetwork/installer-classic/releases/download/alpha-0.31/ON-Classic-Installer-0.31.apk)
-- [Release notes and checksums](https://github.com/OldschoolNetwork/installer-classic/releases/tag/alpha-0.31)
+- [Download ON Classic Installer](https://github.com/OldschoolNetwork/installer-classic/releases/download/alpha-0.32/ON-Classic-Installer-0.32.apk)
+- [Release notes and checksums](https://github.com/OldschoolNetwork/installer-classic/releases/tag/alpha-0.32)
 - [All ON downloads](https://oldschoolnetwork.online/downloads/)
 
 Android **4.0 / API 14 or newer**. This is a universal APK. It uses the persistent Oldschool Network signing key.
@@ -22,7 +22,7 @@ Removing old Google components is optional and off by default. The installer sho
 
 | Service | Version |
 | --- | --- |
-| ON Core Services | 0.54 |
+| ON Core Services | 0.55 |
 | ON Store | 0.34 |
 
 ## Build

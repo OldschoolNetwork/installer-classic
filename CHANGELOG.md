@@ -1,5 +1,15 @@
 # Changes
 
+## 0.30 — 2026-10-19
+
+Installer 0.30 bundles signed Core 0.53 and Store 0.33.
+
+- Updated the service payload and its version, checksum and signing-certificate metadata.
+- The Store payload declares Android's privileged installation permission; full installation prepares the applicable permission allowlist.
+- Existing ordinary/full installation choices and the optional Google-component removal confirmation remain in place.
+
+All three APKs use the persistent ON signing key. The bundled service APKs are checked against the signed release files before publication. Full installation and silent updates still need verification on rooted physical devices.
+
 ## 0.29 — 2026-10-19
 
 ON Classic Installer 0.29 includes signed ON Core Services 0.52 and ON Store 0.32.

@@ -7,8 +7,8 @@ android {
         applicationId "com.oldschoolnetwork.services.classicinstaller"
         minSdkVersion 14       // Android 4.0 Ice Cream Sandwich
         targetSdkVersion 28    // Android 9.0 Pie
-        versionCode 3
-        versionName "alpha-0.28"
+        versionCode 4
+        versionName "alpha-0.29"
     }
 
     compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }

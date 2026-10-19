@@ -42,7 +42,7 @@ def main():
         args.output.parent.mkdir(parents=True,exist_ok=True);environment['ON_SIGNING_PASSWORD']=read_password()
         aligned=args.output.with_suffix('.aligned.apk')
         call([args.sdk/'build-tools'/args.build_tools/'zipalign.exe','-p','-f','4',args.input,aligned],environment)
-        try:call([args.jdk/'bin/java.exe','-jar',signer,'sign','--ks',args.keystore,'--ks-key-alias',args.alias,'--ks-pass','env:ON_SIGNING_PASSWORD','--key-pass','env:ON_SIGNING_PASSWORD','--min-sdk-version','14','--v1-signing-enabled','true','--v2-signing-enabled','true','--v3-signing-enabled','true','--out',args.output,aligned],environment)
+        try:call([args.jdk/'bin/java.exe','-jar',signer,'sign','--ks',args.keystore,'--ks-key-alias',args.alias,'--ks-pass','env:ON_SIGNING_PASSWORD','--key-pass','env:ON_SIGNING_PASSWORD','--min-sdk-version','14','--v1-signing-enabled','true','--v2-signing-enabled','true','--out',args.output,aligned],environment)
         finally:aligned.unlink(missing_ok=True)
         target=args.output
     else:target=args.input

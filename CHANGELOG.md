@@ -1,5 +1,23 @@
 # Changes
 
+## 0.29 — 2026-10-19
+
+ON Classic Installer 0.29 includes signed ON Core Services 0.52 and ON Store 0.32.
+
+- Choose the ON services to install; required dependencies are included automatically.
+- Ordinary installation uses Android's package installer. Full installation offers supported system-directory or Magisk paths with rollback data.
+- Bundled packages are checked against their identities, versions, signing certificates and SHA-256 checksums.
+- Android version and processor compatibility are checked before installation.
+- Download/preparation and installation notifications, permission prompts and clearer progress.
+- Optional removal of selected old Google components, disabled by default, with a review and confirmation step.
+- Holo layouts, spacing, branding and About links updated for the project.
+
+Requires Android 4.0 (API 14) or newer. Installer, Core and Store are signed with the same persistent ON key. The embedded APKs and checksums have been verified.
+
+Full root installation, Google component removal, Magisk overlays and post-reboot behaviour have not been tested on a rooted physical device. Back up the device and retain recovery access before using those options. Ordinary installation does not remove Google components.
+
+Old debug-signed installations cannot be updated in place with the ON release key.
+
 ## 0.28 — in development
 
 - Replaced the old test payload flow with ON service selection and dependency resolution.

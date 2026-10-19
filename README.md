@@ -1,67 +1,53 @@
-# ON Classic Services Installer
+# ON Classic Installer
 
-An installer for Oldschool Network services, designed around Android's Holo interface and classic Android devices.
+Installs ON services together, with a Holo interface and a choice of ordinary or full installation.
 
-Choose the services you need, install ON Core Services and their dependencies, and use either ordinary APK installation or full system installation on a compatible rooted device.
+## Download
 
-**Development status:** alpha. The current work is source-only. The next installer APK will be built and published after the next ON Core update. System installation still needs device testing.
+Current build: **alpha 0.29**, version code **4**.
 
-## Features
+- [Download ON Classic Installer](https://github.com/OldschoolNetwork/installer-classic/releases/download/alpha-0.29/ON-Classic-Installer-0.29.apk)
+- [Release notes and checksums](https://github.com/OldschoolNetwork/installer-classic/releases/tag/alpha-0.29)
+- [All ON downloads](https://oldschoolnetwork.online/downloads/)
 
-- A service selection screen with ON Core Services included as a required dependency.
-- Ordinary installation through Android's package installer, without root.
-- Full installation for compatible rooted devices: classic system application directories or a Magisk systemless module.
-- Release selection based on the device's Android version and supported processor ABIs.
-- Bundled APK integrity checks, package identity checks and checks against the certificate and version of an existing installation.
-- Installation progress, useful failure messages and rollback information for system installation.
-- A lightweight Holo interface with layouts editable in Android Studio.
+Android **4.0 / API 14 or newer**. This is a universal APK. It uses the persistent Oldschool Network signing key.
 
-The service pack is prepared from ON Core Services and ON Store. Additional services and compatible release variants can be declared in the local payload manifest.
+## What it does
 
-## Requirements
+Select the services you need before installation. Core is included when required by another service. Ordinary installation opens Android's installer for each package. Full installation uses supported system directories or a Magisk module and retains rollback information.
 
-- Android 4.0 / API 14 or newer for the installer application. Individual service APKs may have additional requirements.
-- Enough free space for the installer, bundled APKs and installation backups.
-- Permission to install unknown applications for ordinary installation, where required by Android.
-- Root access and a supported system layout or Magisk environment for full installation.
+Removing old Google components is optional and off by default. The installer shows the selected components and requires confirmation before proceeding. Root access alone does not grant Android platform-signature permissions.
 
-Root access by itself does not make an installation complete. System installation must be activated by a restart and verified afterwards. Installing an app in a system directory does not grant platform-signature permissions or bypass Android's security model.
+## Included services
+
+| Service | Version |
+| --- | --- |
+| ON Core Services | 0.52 |
+| ON Store | 0.32 |
 
 ## Build
 
-Open this directory in Android Studio. This project uses Gradle 5.4.1, Android Gradle Plugin 3.5.3, JDK 8 and Android SDK 28. APK files are not committed to the source repository. Prepare a signed service payload before building a distributable installer; see [SIGNING.md](SIGNING.md).
+Use JDK 8, Android SDK 28, Android Gradle Plugin 3.5.3 and Gradle 5.4.1. Open the project in Android Studio or use the Gradle wrapper.
+
+Prepare the signed Core and Store APKs with `tools/prepare-bundle.py` before building a release. The APKs and generated `services.json` are local payload files and are excluded from Git. See [SIGNING.md](SIGNING.md) for signing and bundle preparation.
 
 ```text
 gradlew.bat :app:testDebugUnitTest
-
-# After preparing the signed Core and Store payload:
 gradlew.bat :app:assembleRelease
 ```
 
-Local service APKs live in `app/src/main/assets/apks/`. `tools/prepare-bundle.py` generates `app/src/main/assets/services.json` with their versions, checksums, compatibility and dependencies. Both the APK files and the generated manifest are ignored by Git. A release build rejects missing or debug-signed payloads. Sign the resulting installer with the same persistent ON key before publishing it.
+The release build checks the payload files and their checksums. Building does not publish a release.
 
-## Installation and recovery
+## Alpha status
 
-Ordinary installation opens Android's installer for each selected service. Full installation needs explicit root approval and a restart. Back up your device and make sure you can access recovery before changing system applications.
+These builds are under development. Android 5.1 checks have passed, but that does not establish compatibility with every device or ROM. Full root installation, Google component removal, Magisk overlays and silent updates still need testing on physical devices. Keep a backup and recovery access before using system installation.
 
-System installation retains rollback data and displays its recovery command. On a Magisk installation, the ON module can also be disabled through Magisk or recovery. Do not delete recovery data until the installation has been verified.
+The ON release key differs from the old Android debug key. Android cannot update those old development packages in place; plan a one-time migration and keep any data you need.
 
-Compatibility and recovery instructions are being expanded as part of the current development cycle. No claim is made that the new system installation flow has been tested on every device or ROM.
-
-## Links
+## Help and problems
 
 - [Oldschool Network](https://oldschoolnetwork.online/)
-- [Downloads](https://oldschoolnetwork.online/downloads/)
-- [Installation documentation](https://oldschoolnetwork.online/downloads/docs/)
+- [Documentation](https://oldschoolnetwork.online/downloads/docs/)
+- [Changelog](CHANGELOG.md)
 
-The updated download catalog and documentation are being prepared locally; these pages may not be published yet.
-
-## Reporting problems
-
-Please include your Android version, device model and a redacted installation log when reporting an issue. Never post passwords, ON Account tokens or private account information.
-
-An open-source license has not been selected yet.
-
-## Development notes
-
-[CHANGELOG.md](CHANGELOG.md) describes the current changes. The dependency resolver has tests for Android/ABI selection, required services and dependency cycles. APK publication is intentionally deferred; there is no automatic upload during a source build.
+Include your device model, Android version, application version and the steps that led to a problem. Remove account tokens and private information from logs before posting them.

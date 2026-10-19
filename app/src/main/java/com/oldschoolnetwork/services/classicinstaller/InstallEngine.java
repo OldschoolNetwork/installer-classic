@@ -10,11 +10,13 @@ import java.util.*;
 /** All work is off the UI thread. System writes use owned paths and retain rollback data. */
 public final class InstallEngine {
     public interface Log { void write(String text); }
-    public static File prepare(Context context,ServiceCatalog.Release release) throws Exception {
+    public interface Progress { void update(long bytes,long total); }
+    public static File prepare(Context context,ServiceCatalog.Release release) throws Exception {return prepare(context,release,(bytes,total)->{});}
+    public static File prepare(Context context,ServiceCatalog.Release release,Progress progress) throws Exception {
         File directory=new File(context.getFilesDir(),"packages");if(!directory.isDirectory()&&!directory.mkdirs())throw new IOException("Cannot create package directory.");
         File file=new File(directory,release.asset);MessageDigest hash=MessageDigest.getInstance("SHA-256");
         try(InputStream input=context.getAssets().open("apks/"+release.asset);OutputStream output=new FileOutputStream(file)) {
-            byte[] buffer=new byte[32768];int count;while((count=input.read(buffer))!=-1){output.write(buffer,0,count);hash.update(buffer,0,count);}
+            long total=input.available(),bytes=0,last=0;byte[] buffer=new byte[32768];int count;while((count=input.read(buffer))!=-1){output.write(buffer,0,count);hash.update(buffer,0,count);bytes+=count;if(System.currentTimeMillis()-last>=150){progress.update(bytes,total);last=System.currentTimeMillis();}}progress.update(bytes,bytes);
         }
         StringBuilder digest=new StringBuilder();for(byte value:hash.digest())digest.append(String.format(Locale.US,"%02x",value&255));
         if(!digest.toString().equalsIgnoreCase(release.sha256)){file.delete();throw new IOException("Checksum mismatch: "+release.name);}
@@ -38,7 +40,9 @@ public final class InstallEngine {
         } finally {timer.cancel();}
         return output.toString();
     }
-    public static String installSystem(Context context,List<ServiceCatalog.Release> releases,List<File> files,Log log) throws Exception {
+    public static String installSystem(Context context,List<ServiceCatalog.Release> releases,List<File> files,Log log) throws Exception {return installSystem(context,releases,files,Collections.<GoogleComponents.Entry>emptyList(),log);}
+    public static String installSystem(Context context,List<ServiceCatalog.Release> releases,List<File> files,List<GoogleComponents.Entry> removals,Log log) throws Exception {
+        GoogleComponents.validate(removals);
         String mode=root("test \"$(id -u)\" = 0 || exit 1; if command -v magisk >/dev/null 2>&1 && test -d /data/adb/modules; then echo MAGISK; else echo LEGACY; fi").trim();
         if(!mode.endsWith("MAGISK")&&Build.VERSION.SDK_INT>28)throw new IOException("This Android requires a supported Magisk systemless installation. Direct writes to modern system partitions are not supported.");
         boolean magisk=mode.endsWith("MAGISK");
@@ -96,6 +100,10 @@ public final class InstallEngine {
                 rollback.append("rm -rf ").append(quote(destination)).append("\nif test -e ").append(quote(backup+"/ON_"+release.id)).append("; then cp -R ").append(quote(backup+"/ON_"+release.id)).append(" ").append(quote(destination)).append("; fi\n");
             }
         }
+        for(GoogleComponents.Entry entry:removals){
+            String saved=backup+"/google/"+entry.packageName+".apk";
+            if(!magisk)rollback.append("if test -f ").append(quote(saved)).append("; then cp ").append(quote(saved)).append(" ").append(quote(entry.path)).append("; chmod 644 ").append(quote(entry.path)).append("; if command -v restorecon >/dev/null 2>&1; then restorecon ").append(quote(entry.path)).append("; fi; fi\n");
+        }
         if(!magisk)rollback.append("mount -o remount,ro /system || true\n");
         File rollbackFile=new File(context.getFilesDir(),"rollback.sh");try(Writer writer=new OutputStreamWriter(new FileOutputStream(rollbackFile),"UTF-8")){writer.write(rollback.toString());}
         script.append("cat ").append(quote(rollbackFile.getAbsolutePath())).append(" > ").append(quote(backup+"/rollback.sh")).append("\nchmod 700 ").append(quote(backup+"/rollback.sh")).append("\n");
@@ -114,6 +122,17 @@ public final class InstallEngine {
             if(Build.VERSION.SDK_INT>=19)script.append("mkdir -p ").append(quote(destination)).append("\nchmod 755 ").append(quote(destination)).append("\nchown 0:0 ").append(quote(destination)).append("\n");
             script.append("cat ").append(quote(files.get(i).getAbsolutePath())).append(" > ").append(quote(apk+".new")).append("\nchown 0:0 ").append(quote(apk+".new")).append("\nchmod 644 ").append(quote(apk+".new")).append("\nmv ").append(quote(apk+".new")).append(" ").append(quote(apk)).append("\n");
             if(!magisk)script.append("if command -v restorecon >/dev/null 2>&1; then restorecon -R ").append(quote(destination)).append("; fi\n");
+        }
+        if(!removals.isEmpty())script.append("mkdir -p ").append(quote(backup+"/google")).append("\nchmod 700 ").append(quote(backup+"/google")).append("\n");
+        for(GoogleComponents.Entry entry:removals){
+            log.write("Removing selected Google service: "+entry.packageName);
+            if(magisk){
+                String mask=stage+entry.path;
+                // A systemless overlay hides only the selected APK and is undone with the module rollback.
+                script.append("mkdir -p ").append(quote(new File(mask).getParent())).append("\ntouch ").append(quote(mask)).append("\nchmod 000 ").append(quote(mask)).append("\n");
+            }else{
+                script.append("cp ").append(quote(entry.path)).append(" ").append(quote(backup+"/google/"+entry.packageName+".apk")).append("\nrm -f ").append(quote(entry.path)).append("\n");
+            }
         }
         if(magisk) {
             script.append("printf '%s\\n' 'id=on_classic_services' 'name=Oldschool Network Services' 'version=2026.10.19' 'versionCode=20261019' 'author=Oldschool Network' 'description=Selected ON services as system apps' > ").append(quote(stage+"/module.prop")).append("\nchmod 644 ").append(quote(stage+"/module.prop")).append("\nrm -rf ").append(quote(target)).append("\nmv ").append(quote(stage)).append(" ").append(quote(target)).append("\n");

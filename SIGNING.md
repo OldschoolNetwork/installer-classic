@@ -4,7 +4,7 @@ Use Android SDK `apksigner` to sign and verify APKs. Run `zipalign` before signi
 
 ON uses a persistent signing key shared by its service APKs. The private keystore and its recovery information live outside this repository. They must never be committed or uploaded as release assets.
 
-`tools/sign-apk.py` reads the password from Windows Credential Manager. On other systems it reads `ON_SIGNING_PASSWORD`. The password is passed to the signing tool through the subprocess environment, not a command-line argument.
+The helper scripts target the Windows development setup. `tools/sign-apk.py` reads the password from Windows Credential Manager and passes it to the signing tool through the subprocess environment, not a command-line argument.
 
 Example in PowerShell:
 

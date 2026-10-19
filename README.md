@@ -60,7 +60,7 @@ The updated download catalog and documentation are being prepared locally; these
 
 Please include your Android version, device model and a redacted installation log when reporting an issue. Never post passwords, ON Account tokens or private account information.
 
-No open-source license has been selected for this repository yet. Publishing source code does not by itself grant permission to redistribute it under an assumed license.
+An open-source license has not been selected yet.
 
 ## Development notes
 

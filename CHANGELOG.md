@@ -1,5 +1,15 @@
 # Changes
 
+## 0.31 — 2026-10-19
+
+Installer 0.31 includes signed Core 0.54 and Store 0.34.
+
+- Updated service payload, versions, checksums and certificate metadata.
+- Core now declares the privileged installation permission needed for silent service updates. Full setup prepares the applicable permission allowlist.
+- The signing helper reports tool diagnostics from either output stream when a tool fails.
+
+All APKs use the persistent ON key. The bundled service files are checked against the signed releases. Installer unit checks passed. Root installation on physical devices still needs testing.
+
 ## 0.30 — 2026-10-19
 
 Installer 0.30 bundles signed Core 0.53 and Store 0.33.

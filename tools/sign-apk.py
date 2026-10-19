@@ -18,7 +18,7 @@ def read_password():
     finally:vault.CredFree(pointer)
 def call(arguments,environment):
     result=subprocess.run([str(arg) for arg in arguments],env=environment,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
-    if result.returncode:raise RuntimeError('Signing tool failed: '+result.stderr[:1500])
+    if result.returncode:raise RuntimeError('Signing tool failed: '+(result.stderr or result.stdout)[:1500])
     return result.stdout
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('action',choices=['init','sign','verify']);parser.add_argument('--keystore',type=Path);parser.add_argument('--alias',default='on-release');parser.add_argument('--jdk',type=Path,required=True);parser.add_argument('--sdk',type=Path);parser.add_argument('--build-tools',default='28.0.3');parser.add_argument('--input',type=Path);parser.add_argument('--output',type=Path);args=parser.parse_args()

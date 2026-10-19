@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/bg_gradient" android:fillViewport="true">
+ <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+  <Button android:id="@+id/btn_back" android:layout_width="88dp" android:layout_height="44dp" android:text="Back" android:textAllCaps="false" android:textColor="#FFFFFF" android:background="@drawable/bg_holo_button"/>
+  <ImageView android:id="@+id/aboutBrandLogo" android:layout_width="match_parent" android:layout_height="80dp" android:layout_marginTop="24dp" android:scaleType="fitCenter" android:contentDescription="Oldschool Network"/>
+  <ImageView android:id="@+id/aboutServicesLogo" android:layout_width="match_parent" android:layout_height="64dp" android:layout_marginTop="20dp" android:scaleType="fitCenter" android:contentDescription="ON Services"/>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="ON Classic Services Installer" android:textColor="#00BCD4" android:textSize="24sp" android:fontFamily="sans-serif-light"/>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Version 0.28 · Alpha" android:textColor="#999999" android:textSize="14sp"/>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Install ON Core Services and the services you choose. Use ordinary APK installation without root, or full system installation on a compatible rooted device." android:textColor="#DDDDDD" android:textSize="16sp"/>
+  <Button android:id="@+id/btn_website" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="24dp" android:text="Oldschool Network website" android:textAllCaps="false" android:textColor="#00BCD4" android:background="@drawable/bg_holo_button"/>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Oldschool Network · JustMaxMD" android:textColor="#999999" android:textSize="13sp"/>
+ </LinearLayout>
+</ScrollView>

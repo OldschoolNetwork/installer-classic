@@ -1,0 +1,13 @@
+<resources>
+    <!-- BASE THEME: Authentic Holo Dark for API 14+ -->
+    <style name="AppTheme" parent="android:Theme.Holo.NoActionBar">
+        <!-- Neon Holo Blue Accent Color -->
+        <item name="android:colorAccent">#33B5E5</item>
+
+        <!-- FIXED: Reference to the gradient drawable instead of raw color string -->
+        <item name="android:windowBackground">@drawable/bg_gradient</item>
+
+        <!-- Disables uppercase transformation on all buttons globally -->
+        <item name="android:textAllCaps">false</item>
+    </style>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/installScroll" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/bg_gradient" android:fillViewport="true">
+ <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+  <ImageView android:id="@+id/servicesLogo" android:layout_width="match_parent" android:layout_height="100dp" android:scaleType="fitCenter" android:contentDescription="Oldschool Network Services"/>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Choose your services" android:textSize="28sp" android:fontFamily="sans-serif-light" android:textColor="#00BCD4"/>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="ON Core Services is required. Optional services include their dependencies automatically." android:textColor="#CCCCCC" android:textSize="16sp"/>
+  <CheckBox android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="16dp" android:paddingBottom="16dp" android:text="ON Core Services · Required" android:checked="true" android:enabled="false" android:textColor="#FFFFFF"/>
+  <CheckBox android:id="@+id/chooseStore" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="16dp" android:text="ON Store · Apps and games" android:checked="true" android:textColor="#FFFFFF"/>
+  <TextView android:id="@+id/compatibilityInfo" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#AAAAAA" android:textSize="13sp" android:paddingBottom="16dp"/>
+  <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#00BCD4"/>
+  <Button android:id="@+id/btnOrdinary" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="52dp" android:layout_marginTop="20dp" android:padding="12dp" android:text="Ordinary installation" android:textAllCaps="false" android:textColor="#FFFFFF" android:background="@drawable/bg_holo_blue"/>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="No root required. Android asks you to install each selected APK." android:textColor="#AAAAAA" android:textSize="13sp"/>
+  <Button android:id="@+id/btnSystem" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="52dp" android:layout_marginTop="20dp" android:padding="12dp" android:text="Full installation with root" android:textAllCaps="false" android:textColor="#00BCD4" android:background="@drawable/bg_holo_button"/>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="System apps on compatible classic Android, or a Magisk module on supported rooted devices. Restart required." android:textColor="#AAAAAA" android:textSize="13sp"/>
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="20dp">
+   <Button android:id="@+id/btnGuide" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:text="Installation guide" android:textAllCaps="false" android:textColor="#FFFFFF" android:background="@drawable/bg_holo_button"/>
+   <Button android:id="@+id/btnAbout" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:layout_marginLeft="12dp" android:text="About" android:textAllCaps="false" android:textColor="#FFFFFF" android:background="@drawable/bg_holo_button"/>
+  </LinearLayout>
+  <ProgressBar android:id="@+id/installProgress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="4dp" android:layout_marginTop="20dp" android:indeterminate="true" android:visibility="gone"/>
+  <TextView android:id="@+id/installStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Ready when you are." android:textColor="#00BCD4" android:textSize="16sp"/>
+  <TextView android:id="@+id/installLog" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textColor="#CCCCCC" android:textSize="13sp" android:textIsSelectable="true"/>
+  <Button android:id="@+id/btnRestart" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="16dp" android:text="Restart device" android:textAllCaps="false" android:background="@drawable/bg_holo_blue" android:textColor="#FFFFFF" android:visibility="gone"/>
+ </LinearLayout>
+</ScrollView>

@@ -4,7 +4,7 @@ An installer for Oldschool Network services, designed around Android's Holo inte
 
 Choose the services you need, install ON Core Services and their dependencies, and use either ordinary APK installation or full system installation on a compatible rooted device.
 
-**Development status:** alpha. The installer is currently being redesigned. The new system installation paths are under verification and must not be treated as a tested production release yet.
+**Development status:** alpha. The current work is source-only. The next installer APK will be built and published after the next ON Core update. System installation still needs device testing.
 
 ## Features
 
@@ -16,7 +16,7 @@ Choose the services you need, install ON Core Services and their dependencies, a
 - Installation progress, useful failure messages and rollback information for system installation.
 - A lightweight Holo interface with layouts editable in Android Studio.
 
-The currently bundled services are ON Core Services and ON Store. More services and compatible release variants can be added through the bundled release manifest.
+The service pack is prepared from ON Core Services and ON Store. Additional services and compatible release variants can be declared in the local payload manifest.
 
 ## Requirements
 
@@ -29,13 +29,16 @@ Root access by itself does not make an installation complete. System installatio
 
 ## Build
 
-Open this directory in Android Studio. This project currently uses Gradle 5.4.1, Android Gradle Plugin 3.5.3, JDK 8 and Android SDK 28.
+Open this directory in Android Studio. This project uses Gradle 5.4.1, Android Gradle Plugin 3.5.3, JDK 8 and Android SDK 28. APK files are not committed to the source repository. Prepare a signed service payload before building a distributable installer; see [SIGNING.md](SIGNING.md).
 
 ```text
-gradlew.bat :app:assembleDebug
+gradlew.bat :app:testDebugUnitTest
+
+# After preparing the signed Core and Store payload:
+gradlew.bat :app:assembleRelease
 ```
 
-Bundled service APKs live in `app/src/main/assets/apks/`. Their versions, checksums, compatibility and dependencies are declared in `app/src/main/assets/services.json`. Regenerate that manifest whenever an APK changes. A debug build is for development and is not a production-signed release.
+Local service APKs live in `app/src/main/assets/apks/`. `tools/prepare-bundle.py` generates `app/src/main/assets/services.json` with their versions, checksums, compatibility and dependencies. Both the APK files and the generated manifest are ignored by Git. A release build rejects missing or debug-signed payloads. Sign the resulting installer with the same persistent ON key before publishing it.
 
 ## Installation and recovery
 
@@ -53,8 +56,12 @@ Compatibility and recovery instructions are being expanded as part of the curren
 
 The updated download catalog and documentation are being prepared locally; these pages may not be published yet.
 
-## Contributing and licensing
+## Reporting problems
 
 Please include your Android version, device model and a redacted installation log when reporting an issue. Never post passwords, ON Account tokens or private account information.
 
 No open-source license has been selected for this repository yet. Publishing source code does not by itself grant permission to redistribute it under an assumed license.
+
+## Development notes
+
+[CHANGELOG.md](CHANGELOG.md) describes the current changes. The dependency resolver has tests for Android/ABI selection, required services and dependency cycles. APK publication is intentionally deferred; there is no automatic upload during a source build.

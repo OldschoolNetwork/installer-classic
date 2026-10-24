@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.35 — 2026-10-24
+
+Bundles signed ON Core Services 0.57 and ON Store 0.38. The installation modes and service selection remain unchanged.
+
 ## 0.34 — 2026-10-24
 
 - Bundles ON Core Services 0.57 and ON Store 0.36, signed with the persistent ON certificate.

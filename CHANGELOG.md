@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.36 — 2026-10-24
+
+Adds optional Mozilla root certificate installation and recovery for compatible classic system trust stores. Bundles Core 0.57 and Store 0.38.
+
+
 ## 0.35 — 2026-10-24
 
 Bundles signed ON Core Services 0.57 and ON Store 0.38. The installation modes and service selection remain unchanged.

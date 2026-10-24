@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.core.content.FileProvider;
 import java.io.File;
+import com.oldschoolnetwork.certificates.RootCertificates;
 import java.util.*;
 
 public class MainActivity extends Activity {
@@ -30,6 +31,9 @@ public class MainActivity extends Activity {
         ((ImageView)findViewById(R.id.servicesLogo)).setImageDrawable(androidx.vectordrawable.graphics.drawable.VectorDrawableCompat.create(getResources(),R.drawable.ic_services_logo,getTheme()));
         status=findViewById(R.id.installStatus);log=findViewById(R.id.installLog);
         findViewById(R.id.btnOrdinary).setOnClickListener(v->begin(false));
+        findViewById(R.id.btnCertificates).setOnClickListener(v->certificates(false));
+        findViewById(R.id.btnRestoreCertificates).setOnClickListener(v->certificates(true));
+        findViewById(R.id.btnRestoreCertificates).setEnabled(RootCertificates.canRestore(this));
         findViewById(R.id.btnSystem).setOnClickListener(v->new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_DARK).setTitle("Full system installation").setMessage("The selected services and their dependencies will be installed as system apps. Root permission and a restart are required. Back up your device and read the recovery guide first.").setNegativeButton("Cancel",null).setPositiveButton("Install with root",(d,w)->begin(true)).show());
         findViewById(R.id.btnGuide).setOnClickListener(v->open("https://oldschoolnetwork.online/downloads/docs/full-install/"));
         findViewById(R.id.btnAbout).setOnClickListener(v->startActivity(new Intent(this,AboutActivity.class)));
@@ -41,6 +45,19 @@ public class MainActivity extends Activity {
             ((TextView)findViewById(R.id.compatibilityInfo)).setText(text);
         } catch(Exception error){status.setText(error.getMessage());findViewById(R.id.btnOrdinary).setEnabled(false);findViewById(R.id.btnSystem).setEnabled(false);}
         if(state!=null&&state.getBoolean("busy"))status.setText("Installation was interrupted. Check installed services, then run the installer again. Do not assume a full installation succeeded.");
+    }
+    private void certificates(final boolean restore) {
+        if(busy)return;
+        if(!restore && Build.VERSION.SDK_INT>=34){status.setText("System certificate installation supports Android 4.0–13.");return;}
+        new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_DARK).setTitle(restore?"Restore certificates?":"Install Mozilla roots?")
+            .setMessage(restore?"Remove only the roots added by the last certificate installation. Other certificate files are kept. Restart afterwards.":"Add the verified Mozilla root bundle to the system trust store. Root is required. A recovery script is saved before changes. Certificates extend HTTPS trust; they do not update JavaScript, CSS or TLS protocols. Restart afterwards.")
+            .setNegativeButton("Cancel",null).setPositiveButton(restore?"Restore":"Install with root",(dialog,which)->{
+                busy=true;setBusy(true);status.setText(restore?"Restoring certificates…":"Installing certificates…");
+                new Thread(()->{try{
+                    if(restore)RootCertificates.restore(this,this::append);else RootCertificates.install(this,this::append);
+                    main.post(()->{busy=false;setBusy(false);status.setText("Certificate operation complete. Restart the device.");findViewById(R.id.btnRestart).setVisibility(View.VISIBLE);});
+                }catch(Exception error){main.post(()->fail(error.getMessage()));}},"on-certificates").start();
+            }).show();
     }
     private void open(String url){try{startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(url)));}catch(ActivityNotFoundException error){status.setText(url);}}
     private void begin(final boolean system) {
@@ -94,7 +111,7 @@ public class MainActivity extends Activity {
             try{if(getPackageManager().getPackageInfo(selected.get(next).packageName,0).versionCode<selected.get(next).versionCode)throw new Exception();next++;installNext();}catch(Exception error){fail("Android did not confirm the selected package version.");}
         }
     }
-    private void setBusy(boolean value){if(removeGoogle!=null)removeGoogle.setEnabled(!value);findViewById(R.id.btnOrdinary).setEnabled(!value);findViewById(R.id.btnSystem).setEnabled(!value);findViewById(R.id.chooseStore).setEnabled(!value);findViewById(R.id.installProgress).setVisibility(value?View.VISIBLE:View.GONE);findViewById(R.id.btnRestart).setVisibility(View.GONE);}
+    private void setBusy(boolean value){findViewById(R.id.btnCertificates).setEnabled(!value);findViewById(R.id.btnRestoreCertificates).setEnabled(!value&&RootCertificates.canRestore(this));findViewById(R.id.btnCertificates).setEnabled(!value);findViewById(R.id.btnRestoreCertificates).setEnabled(!value&&RootCertificates.canRestore(this));findViewById(R.id.btnCertificates).setEnabled(!value);findViewById(R.id.btnRestoreCertificates).setEnabled(!value&&RootCertificates.canRestore(this));findViewById(R.id.btnCertificates).setEnabled(!value);findViewById(R.id.btnRestoreCertificates).setEnabled(!value&&RootCertificates.canRestore(this));findViewById(R.id.btnCertificates).setEnabled(!value);findViewById(R.id.btnRestoreCertificates).setEnabled(!value&&RootCertificates.canRestore(this));findViewById(R.id.btnCertificates).setEnabled(!value);findViewById(R.id.btnRestoreCertificates).setEnabled(!value&&RootCertificates.canRestore(this));findViewById(R.id.btnCertificates).setEnabled(!value);findViewById(R.id.btnRestoreCertificates).setEnabled(!value&&RootCertificates.canRestore(this));findViewById(R.id.btnCertificates).setEnabled(!value);findViewById(R.id.btnRestoreCertificates).setEnabled(!value&&RootCertificates.canRestore(this));if(removeGoogle!=null)removeGoogle.setEnabled(!value);findViewById(R.id.btnOrdinary).setEnabled(!value);findViewById(R.id.btnSystem).setEnabled(!value);findViewById(R.id.chooseStore).setEnabled(!value);findViewById(R.id.installProgress).setVisibility(value?View.VISIBLE:View.GONE);findViewById(R.id.btnRestart).setVisibility(View.GONE);}
     private void fail(String message){if(transferNotification!=null)transferNotification.finish();busy=false;setBusy(false);status.setText("Installation did not finish");append(message==null?"Unknown installation error.":message);}
     private void scrollLog(){final ScrollView scroll=findViewById(R.id.installScroll);scroll.post(()->scroll.fullScroll(View.FOCUS_DOWN));}
     private void append(final String text){main.post(()->{if(!isFinishing()){log.append(text+"\n\n");scrollLog();}});}

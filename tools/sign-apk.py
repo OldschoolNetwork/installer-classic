@@ -21,7 +21,7 @@ def call(arguments,environment):
     if result.returncode:raise RuntimeError('Signing tool failed: '+(result.stderr or result.stdout)[:1500])
     return result.stdout
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('action',choices=['init','sign','verify']);parser.add_argument('--keystore',type=Path);parser.add_argument('--alias',default='on-release');parser.add_argument('--jdk',type=Path,required=True);parser.add_argument('--sdk',type=Path);parser.add_argument('--build-tools',default='28.0.3');parser.add_argument('--input',type=Path);parser.add_argument('--output',type=Path);args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('action',choices=['init','sign','verify']);parser.add_argument('--keystore',type=Path);parser.add_argument('--alias',default='on-release');parser.add_argument('--jdk',type=Path,required=True);parser.add_argument('--sdk',type=Path);parser.add_argument('--build-tools',default='28.0.3');parser.add_argument('--min-sdk',type=int,default=14);parser.add_argument('--input',type=Path);parser.add_argument('--output',type=Path);args=parser.parse_args()
     environment=os.environ.copy();environment['JAVA_HOME']=str(args.jdk)
     if args.action=='init':
         if not args.keystore or args.keystore.exists():raise RuntimeError('Choose a new keystore path; existing keys are never overwritten.')
@@ -42,9 +42,9 @@ def main():
         args.output.parent.mkdir(parents=True,exist_ok=True);environment['ON_SIGNING_PASSWORD']=read_password()
         aligned=args.output.with_suffix('.aligned.apk')
         call([args.sdk/'build-tools'/args.build_tools/'zipalign.exe','-p','-f','4',args.input,aligned],environment)
-        try:call([args.jdk/'bin/java.exe','-jar',signer,'sign','--ks',args.keystore,'--ks-key-alias',args.alias,'--ks-pass','env:ON_SIGNING_PASSWORD','--key-pass','env:ON_SIGNING_PASSWORD','--min-sdk-version','14','--v1-signing-enabled','true','--v2-signing-enabled','true','--out',args.output,aligned],environment)
+        try:call([args.jdk/'bin/java.exe','-jar',signer,'sign','--ks',args.keystore,'--ks-key-alias',args.alias,'--ks-pass','env:ON_SIGNING_PASSWORD','--key-pass','env:ON_SIGNING_PASSWORD','--min-sdk-version',str(args.min_sdk),'--v1-signing-enabled','true','--v2-signing-enabled','true','--out',args.output,aligned],environment)
         finally:aligned.unlink(missing_ok=True)
         target=args.output
     else:target=args.input
-    print(call([args.jdk/'bin/java.exe','-jar',signer,'verify','--verbose','--print-certs','--min-sdk-version','14',target],environment))
+    print(call([args.jdk/'bin/java.exe','-jar',signer,'verify','--verbose','--print-certs','--min-sdk-version',str(args.min_sdk),target],environment))
 if __name__=='__main__':main()

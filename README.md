@@ -2,7 +2,7 @@
 
 Installs ON services and their dependencies on classic Android devices.
 
-Current alpha: **0.35** (version code 10). Android 4.0 / API 14 or later.
+Current alpha: **0.36** (version code 11). Android 4.0 / API 14 or later.
 
 ## Features
 
@@ -24,7 +24,7 @@ This is alpha software. Physical-device and firmware compatibility can differ fr
 
 Use JDK 8, Android SDK 28 and the included Gradle 5.4.1 wrapper. Prepare the signed service APKs with `tools/prepare-bundle.py`, then run `gradlew.bat :app:testDebugUnitTest :app:assembleRelease`. The release build verifies package checksums and certificate metadata.
 
-The 0.35 payload contains Core 0.57 and Store 0.38. APK payloads and the generated `services.json` stay outside Git. See [SIGNING.md](SIGNING.md) for signing and bundle preparation.
+The 0.36 payload contains Core 0.57 and Store 0.38. APK payloads and the generated `services.json` stay outside Git. See [SIGNING.md](SIGNING.md) for signing and bundle preparation.
 
 Full system installation and silent updates still need physical-device testing for this release. Builds signed with the ON release key cannot update older debug-signed packages in place.
 
@@ -33,3 +33,7 @@ Full system installation and silent updates still need physical-device testing f
 [Website](https://oldschoolnetwork.online/) · [Help](https://oldschoolnetwork.online/downloads/docs/) · [Platform Rules](https://api.oldschoolnetwork.online/v1/on-account/web/terms.html)
 
 [Bluesky](https://bsky.app/profile/oldnet.bsky.social) · [YouTube](https://www.youtube.com/@oldschoolnetwork) · [X](https://x.com/oldschool_net) · [Telegram](https://t.me/OldschoolNetwork)
+
+## Root certificates
+
+Optional Mozilla CA installation verifies the bundled roots and preserves existing certificates. Compatible classic rooted systems only; protected modern/APEX stores are not supported. Recovery restores the original BKS store or removes only the PEM files added by ON. New root certificates do not add browser TLS, JavaScript or CSS features.

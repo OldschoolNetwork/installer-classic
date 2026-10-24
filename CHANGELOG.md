@@ -1,3 +1,14 @@
+# Changelog
+
+## 0.33 — 2026-10-24
+
+Installer 0.33 contains ON Core Services 0.56 and ON Store 0.35.
+
+- Updated bundled APKs, versions, checksums and signing-certificate metadata.
+- Previous service payloads are excluded from this installer.
+
+All three APKs use the persistent ON signing certificate. Android 4.0 / API 14 and later. Physical-device root installation has not been retested for this payload update.
+
 # Changes
 
 ## 0.32 — 2026-10-19

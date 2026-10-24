@@ -1,53 +1,35 @@
 # ON Classic Installer
 
-Installs ON services together, with a Holo interface and a choice of ordinary or full installation.
+Installs ON services and their dependencies on classic Android devices.
 
-## Download
+Current alpha: **0.33** (version code 8). Android 4.0 / API 14 or later.
 
-Current build: **alpha 0.32**, version code **7**.
+## Features
 
-- [Download ON Classic Installer](https://github.com/OldschoolNetwork/installer-classic/releases/download/alpha-0.32/ON-Classic-Installer-0.32.apk)
-- [Release notes and checksums](https://github.com/OldschoolNetwork/installer-classic/releases/tag/alpha-0.32)
-- [All ON downloads](https://oldschoolnetwork.online/downloads/)
+- Choose Core and optional ON services.
+- Install as ordinary apps or use full system setup on a compatible rooted device.
+- Validate bundled package identities, versions, checksums and signing certificates.
 
-Android **4.0 / API 14 or newer**. This is a universal APK. It uses the persistent Oldschool Network signing key.
+## Downloads
 
-## What it does
+Get signed APKs from [GitHub Releases](https://github.com/OldschoolNetwork/installer-classic/releases). Use [All downloads](https://oldschoolnetwork.online/downloads/) for individual services and archived versions. The main Download button provides the Classic Installer.
 
-Select the services you need before installation. Core is included when required by another service. Ordinary installation opens Android's installer for each package. Full installation uses supported system directories or a Magisk module and retains rollback information.
+## Installation
 
-Removing old Google components is optional and off by default. The installer shows the selected components and requires confirmation before proceeding. Root access alone does not grant Android platform-signature permissions.
+Read the [installation guides](https://oldschoolnetwork.online/downloads/docs/categories/installation/). Full system setup requires a compatible rooted device; ordinary installation uses Android's package installer. Update an existing installation with APKs signed by the same certificate.
 
-## Included services
-
-| Service | Version |
-| --- | --- |
-| ON Core Services | 0.55 |
-| ON Store | 0.34 |
+This is alpha software. Physical-device and firmware compatibility can differ from emulator results.
 
 ## Build
 
-Use JDK 8, Android SDK 28, Android Gradle Plugin 3.5.3 and Gradle 5.4.1. Open the project in Android Studio or use the Gradle wrapper.
+Use JDK 8, Android SDK 28 and the included Gradle 5.4.1 wrapper. Prepare the signed service APKs with `tools/prepare-bundle.py`, then run `gradlew.bat :app:testDebugUnitTest :app:assembleRelease`. The release build verifies package checksums and certificate metadata.
 
-Prepare the signed Core and Store APKs with `tools/prepare-bundle.py` before building a release. The APKs and generated `services.json` are local payload files and are excluded from Git. See [SIGNING.md](SIGNING.md) for signing and bundle preparation.
+The 0.33 payload contains Core 0.56 and Store 0.35. APK payloads and the generated `services.json` stay outside Git. See [SIGNING.md](SIGNING.md) for signing and bundle preparation.
 
-```text
-gradlew.bat :app:testDebugUnitTest
-gradlew.bat :app:assembleRelease
-```
+Full system installation and silent updates still need physical-device testing for this release. Builds signed with the ON release key cannot update older debug-signed packages in place.
 
-The release build checks the payload files and their checksums. Building does not publish a release.
+## Links
 
-## Alpha status
+[Website](https://oldschoolnetwork.online/) · [Help](https://oldschoolnetwork.online/downloads/docs/) · [Platform Rules](https://api.oldschoolnetwork.online/v1/on-account/web/terms.html)
 
-These builds are under development. Android 5.1 checks have passed, but that does not establish compatibility with every device or ROM. Full root installation, Google component removal, Magisk overlays and silent updates still need testing on physical devices. Keep a backup and recovery access before using system installation.
-
-The ON release key differs from the old Android debug key. Android cannot update those old development packages in place; plan a one-time migration and keep any data you need.
-
-## Help and problems
-
-- [Oldschool Network](https://oldschoolnetwork.online/)
-- [Documentation](https://oldschoolnetwork.online/downloads/docs/)
-- [Changelog](CHANGELOG.md)
-
-Include your device model, Android version, application version and the steps that led to a problem. Remove account tokens and private information from logs before posting them.
+[Bluesky](https://bsky.app/profile/oldnet.bsky.social) · [YouTube](https://www.youtube.com/@oldschoolnetwork) · [X](https://x.com/oldschool_net) · [Telegram](https://t.me/OldschoolNetwork)

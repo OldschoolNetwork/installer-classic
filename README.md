@@ -2,7 +2,7 @@
 
 Installs ON services and their dependencies on classic Android devices.
 
-Current alpha: **0.33** (version code 8). Android 4.0 / API 14 or later.
+Current alpha: **0.34** (version code 9). Android 4.0 / API 14 or later.
 
 ## Features
 
@@ -24,7 +24,7 @@ This is alpha software. Physical-device and firmware compatibility can differ fr
 
 Use JDK 8, Android SDK 28 and the included Gradle 5.4.1 wrapper. Prepare the signed service APKs with `tools/prepare-bundle.py`, then run `gradlew.bat :app:testDebugUnitTest :app:assembleRelease`. The release build verifies package checksums and certificate metadata.
 
-The 0.33 payload contains Core 0.56 and Store 0.35. APK payloads and the generated `services.json` stay outside Git. See [SIGNING.md](SIGNING.md) for signing and bundle preparation.
+The 0.34 payload contains Core 0.57 and Store 0.36. APK payloads and the generated `services.json` stay outside Git. See [SIGNING.md](SIGNING.md) for signing and bundle preparation.
 
 Full system installation and silent updates still need physical-device testing for this release. Builds signed with the ON release key cannot update older debug-signed packages in place.
 

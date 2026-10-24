@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.34 — 2026-10-24
+
+- Bundles ON Core Services 0.57 and ON Store 0.36, signed with the persistent ON certificate.
+- Updates payload checksums and package metadata for the new service versions.
+
+The installer keeps the existing ordinary and full system installation options. Full system installation still requires a compatible rooted device.
+
 ## 0.33 — 2026-10-24
 
 Installer 0.33 contains ON Core Services 0.56 and ON Store 0.35.

@@ -1,8 +1,25 @@
+<p align="center">
+  <img src="docs/branding/app-icon.png" width="96" alt="Application icon">
+</p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/branding/oldschool-network-dark.svg">
+    <img src="docs/branding/oldschool-network-light.svg" width="200" alt="Oldschool Network">
+  </picture>
+</p>
+
 # ON Classic Installer
 
 Installs ON services and their dependencies on classic Android devices.
 
 Current alpha: **0.36** (version code 11). Android 4.0 / API 14 or later.
+
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/services.png" width="240" alt="Service selection and installation modes">
+  <img src="docs/screenshots/certificates.png" width="240" alt="Mozilla root certificates and recovery">
+</p>
 
 ## Features
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.37 — 2026-11-24
+
+Bundles ON Core Services 0.58 and ON Store 0.38. Core 0.58 adds email verification for ON Account sign-in and registration.
+
 ## 0.36 — 2026-10-24
 
 Adds optional Mozilla root certificate installation and recovery for compatible classic system trust stores. Bundles Core 0.57 and Store 0.38.

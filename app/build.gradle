@@ -7,8 +7,8 @@ android {
         applicationId "com.oldschoolnetwork.services.classicinstaller"
         minSdkVersion 14       // Android 4.0 Ice Cream Sandwich
         targetSdkVersion 28    // Android 9.0 Pie
-        versionCode 11
-        versionName "alpha-0.36"
+        versionCode 12
+        versionName "alpha-0.37"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
